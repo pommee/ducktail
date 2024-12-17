@@ -1,11 +1,57 @@
 body {
     font-family: "JetBrains Mono";
     background: #313131;
-    color: white;
+    color: black;
 }
 
 pre,
 code {
     white-space: pre-wrap;
     font-size: 14px;
+    border-radius: 8px;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+}
+
+.top-bar button {
+    margin-right: 10px;
+}
+
+.top-bar p {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.top-bar #logsAmount {
+    background: #616161;
+}
+
+.top-bar #logsAmountInfo {
+    background: cornflowerblue;
+}
+
+.top-bar #logsAmountWarning {
+    background: #ad7f00;
+}
+
+.top-bar #logsAmountError {
+    background: #9e001a;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: #313131;
+    borderradius: 5px;
+    fontsize: 16px;
+    zindex: 9999;
+    opacity: 1;
+    transition: opacity 1s;
 }

@@ -17,6 +17,33 @@
         <title>ducktail</title>
     </head>
     <body>
+        <div class="top-bar">
+            <button onclick="toggleLogs()" title="Toggle fetching new logs">
+                Pause
+            </button>
+            <p id="logsAmount">logs 0</p>
+            <p
+                onclick="filterLogs('info')"
+                title="Only display [info] logs"
+                id="logsAmountInfo"
+            >
+                info 0
+            </p>
+            <p
+                onclick="filterLogs('warning')"
+                title="Only display [warning] logs"
+                id="logsAmountWarning"
+            >
+                warn 0
+            </p>
+            <p
+                onclick="filterLogs('error')"
+                title="Only display [error] logs"
+                id="logsAmountError"
+            >
+                err 0
+            </p>
+        </div>
         <div id="logsTable"></div>
         <script src="/static/js/script.js"></script>
     </body>
