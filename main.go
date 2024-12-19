@@ -4,11 +4,21 @@ import (
 	"bufio"
 	"bytes"
 	"ducktail/internal/server"
+	_ "embed"
 	"encoding/json"
 	"log"
 	"os"
 	"sync"
 )
+
+//go:embed website/index.html
+var indexHTML string
+
+//go:embed website/static/css/style.css
+var styleCSS string
+
+//go:embed website/static/js/script.js
+var scriptJS string
 
 func main() {
 	logsChannel := make(chan string)
@@ -18,7 +28,8 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
-		serverInstance.Start(server.ServerOpts{LogsCh: logsChannel})
+		opts := server.ServerOpts{LogsCh: logsChannel, IndexHTML: indexHTML, StyleCSS: styleCSS, ScriptJS: scriptJS}
+		serverInstance.Start(opts)
 	}()
 
 	reader := bufio.NewReader(os.Stdin)

@@ -21,7 +21,10 @@ type API struct {
 }
 
 type ServerOpts struct {
-	LogsCh chan string
+	LogsCh    chan string
+	IndexHTML string
+	StyleCSS  string
+	ScriptJS  string
 }
 
 func (server *API) readLogs() {
@@ -56,7 +59,7 @@ func (server *API) Start(opts ServerOpts) {
 	}()
 
 	server.serve()
-	server.serveWebsite()
+	server.serveWebsite(opts)
 
 	slog.Info("Started server at http://localhost:8412")
 	wg.Wait()
@@ -71,11 +74,19 @@ func (server *API) serve() {
 
 }
 
-func (server *API) serveWebsite() {
-	server.router.LoadHTMLFiles("website/index.html")
-	server.router.Static("/static", "./website/static")
+func (server *API) serveWebsite(opts ServerOpts) {
+	staticFiles := map[string]struct {
+		content  string
+		mimeType string
+	}{
+		"/":                     {opts.IndexHTML, "text/html"},
+		"/static/css/style.css": {opts.StyleCSS, "text/css"},
+		"/static/js/script.js":  {opts.ScriptJS, "application/javascript"},
+	}
 
-	server.router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{})
-	})
+	for route, file := range staticFiles {
+		server.router.GET(route, func(c *gin.Context) {
+			c.Data(200, file.mimeType, []byte(file.content))
+		})
+	}
 }
